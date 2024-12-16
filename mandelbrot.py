@@ -1,14 +1,19 @@
 from PIL import Image
 import numpy as np
-import random
-import colorsys
-[startX, endX, startY, endY]= [-0.76303941125246,-0.76272491751166,0.0825324955705,0.0828469893113]
-maxIterations = 100
+from colorsys import hsv_to_rgb
+[startX, endX, startY, endY]= [-2,.5,-1.25,1.25]
+#Change the amount of iterations in render
+maxIterations = 50
 domainLength=endX-startX
 rangeLength = endY-startY
-c1 = []
-width = 1000
-height = 1000
+
+startX -= (1920-1080)/1080/2*domainLength 
+endX += (1920-1080)/1080/2*domainLength
+domainLength *=1920/1080
+
+#Change image size
+width = int(1920)
+height = int(1080)
 def renderMandelbrot(output):
    pixels = [[color(mandlebrotValue(px,py)) for px in range(width)] for py in range(height)]
    # for px in range(0,width):
@@ -41,7 +46,8 @@ def pixelToPoint(px,py):
 def color(lightness):
    if(lightness ==1):
       return (0,0,0)
-   return tuple([255*x for x in colorsys.hsv_to_rgb(lightness,1,1)])
+   return tuple([255*x for x in hsv_to_rgb(lightness,1,1)])
 print("Rendering...")
+#Enter name of image output
 renderMandelbrot('render.png')
 print("Done!")
